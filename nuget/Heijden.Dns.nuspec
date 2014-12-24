@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  For more info on this file format visit http://docs.nuget.org/docs/reference/nuspec-reference.
+-->
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Heijden.Dns</id>
+    <version>$version$</version>
+    <owners>ghuntley</owners>
+    <authors>Alphons van der Heijden, Geoffrey Huntley</authors>
+    <title>Heijden.Dns</title>
+    <description>A reusable DNS resolver for .NET.</description>
+    <language>en-US</language>
+    <iconUrl>http://www.codeproject.com/script/Membership/ProfileImages/%7B7BDB8CA5-DEDD-453B-AF2B-243D606B957E%7D.jpg</iconUrl>
+    <projectUrl>https://github.com/ghuntley/Heijden.Dns</projectUrl>
+    <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <tags>DNS IPv4 IPv6</tags>
+  </metadata>
+  <files>
+    <file src="..\src\Heijden.Dns\bin\Release\Heijden.Dns.dll" target="lib\net35" />
+    <file src="..\src\Heijden.Dns\*.cs" target="src" />
+  </files>
+</package>

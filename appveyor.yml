@@ -1,0 +1,102 @@
+#---------------------------------#
+#      general configuration      #
+#---------------------------------#
+
+# version format
+version: 1.0.0.{build}                 # You can use {branch} to, for example
+
+
+#---------------------------------#
+#    environment configuration    #
+#---------------------------------#
+
+# Operating system (build VM template)
+os: Windows Server 2012
+
+# scripts that are called at very beginning, before repo cloning
+init:
+  - git config --global core.autocrlf input
+
+# fetch repository as zip archive
+shallow_clone: true                 # default is "false"
+
+
+# enable patching of AssemblyInfo.* files
+assembly_info:
+  patch: true
+  file: AssemblyInfo.*
+  assembly_version: "{version}"
+  assembly_file_version: "{version}"
+  assembly_informational_version: "{version}"
+
+
+#---------------------------------#
+#       build configuration       #
+#---------------------------------#
+
+# build platform, i.e. x86, x64, Any CPU. This setting is optional.
+platform: Any CPU
+
+# build Configuration, i.e. Debug, Release, etc.
+configuration: Release
+
+
+build:
+  parallel: true                  # enable MSBuild parallel builds
+  project: src/Heijden.Dns.sln        # path to Visual Studio solution or project
+  publish_nuget: true             # package projects with .nuspec files and push to artifacts
+  publish_nuget_symbols: true     # generate and publish NuGet symbol packages
+
+  # MSBuild verbosity level
+  verbosity: normal # quiet|minimal|normal|detailed
+
+
+# scripts to run before build
+before_build:
+  - nuget restore src\Heijden.Dns.sln
+
+# scripts to run after build
+after_build:
+  - powershell nuget\pack.ps1
+
+
+# to run your custom scripts instead of automatic MSBuild
+build_script:
+
+# to disable automatic builds
+#build: off
+
+#---------------------------------#
+#       tests configuration       #
+#---------------------------------#
+
+#test:
+#  assemblies:
+#    - Heijden.Dns.Tests.dll
+
+#---------------------------------#
+#      artifacts configuration    #
+#---------------------------------#
+
+artifacts:
+  - path: src\Heijden.Dns\bin\$(configuration)
+    name: Heijden.Dns
+
+  - path: '**\Heijden.Dns*.nupkg'
+
+#---------------------------------#
+#     deployment configuration    #
+#---------------------------------#
+
+
+# scripts to run before deployment
+before_deploy:
+
+# scripts to run after deployment
+after_deploy:
+
+# to run your custom scripts instead of provider deployments
+deploy_script:
+
+# to disable deployment
+#deploy: off
