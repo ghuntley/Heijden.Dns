@@ -112,7 +112,7 @@ namespace Heijden.DNS
 			return list.ToArray();
 		}
 
-		public Record ReadRecord(Type type)
+		public Record ReadRecord(Type type, int Length)
 		{
 			switch (type)
 			{
@@ -147,7 +147,7 @@ namespace Heijden.DNS
 				case Type.MX:
 					return new RecordMX(this);
 				case Type.TXT:
-					return new RecordTXT(this);
+					return new RecordTXT(this, Length);
 				case Type.RP:
 					return new RecordRP(this);
 				case Type.AFSDB:
