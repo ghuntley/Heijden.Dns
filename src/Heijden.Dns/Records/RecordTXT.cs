@@ -24,15 +24,20 @@ namespace Heijden.DNS
 	{
 		public string TXT;
 
-		public RecordTXT(RecordReader rr)
+		public RecordTXT(RecordReader rr, int Length)
 		{
-			TXT = rr.ReadString();
+			int pos = rr.Position;
+			TXT = new List<string>();
+			while ((rr.Position - pos) < Length)
+				TXT.Add(rr.ReadString());
 		}
 
 		public override string ToString()
 		{
-			return string.Format("\"{0}\"",TXT);
+			StringBuilder sb = new StringBuilder();
+            		foreach (string txt in TXT)
+                		sb.Append(txt);
+			return sb.ToString().TrimEnd();
 		}
-
 	}
 }
