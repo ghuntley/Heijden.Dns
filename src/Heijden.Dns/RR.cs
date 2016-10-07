@@ -115,7 +115,7 @@ namespace Heijden.DNS
 			Class = (Class)rr.ReadUInt16();
 			TTL = rr.ReadUInt32();
 			RDLENGTH = rr.ReadUInt16();
-			RECORD = rr.ReadRecord(Type);
+			RECORD = rr.ReadRecord(Type, RDLENGTH);
 			RECORD.RR = this;
 		}
 
