@@ -348,16 +348,21 @@ namespace Heijden.DNS
 			{
 				for (int intDnsServer = 0; intDnsServer < m_DnsServers.Count; intDnsServer++)
 				{
-					Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+					Socket socket = new Socket(AddressFamily.InterNetworkV6, SocketType.Dgram, ProtocolType.Udp);
+					// allow IPv4 and IPv6 addresses
+					socket.DisableIpV6Only();
 					socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReceiveTimeout, m_Timeout * 1000);
 
 					try
 					{
-						socket.SendTo(request.Data, m_DnsServers[intDnsServer]);
+						IPEndPoint ipvAnyEndPoint = new IPEndPoint(
+							IpV6Extensions.ConvertIpToUnifiedIpv6(m_DnsServers[intDnsServer].Address),
+							m_DnsServers[intDnsServer].Port);
+						socket.SendTo(request.Data, ipvAnyEndPoint);
 						int intReceived = socket.Receive(responseMessage);
 						byte[] data = new byte[intReceived];
 						Array.Copy(responseMessage, data, intReceived);
-						Response response = new Response(m_DnsServers[intDnsServer], data);
+						Response response = new Response(ipvAnyEndPoint, data);
 						AddToCache(response);
 						return response;
 					}
@@ -391,12 +396,15 @@ namespace Heijden.DNS
 			{
 				for (int intDnsServer = 0; intDnsServer < m_DnsServers.Count; intDnsServer++)
 				{
-					TcpClient tcpClient = new TcpClient();
+					TcpClient tcpClient = new TcpClient(AddressFamily.InterNetworkV6);
+					// allow IPv4 and IPv6 addresses
+					tcpClient.Client.DisableIpV6Only();
 					tcpClient.ReceiveTimeout = m_Timeout * 1000;
 
 					try
 					{
-						IAsyncResult result = tcpClient.BeginConnect(m_DnsServers[intDnsServer].Address, m_DnsServers[intDnsServer].Port, null, null);
+						IPAddress ipvAnyAddress = IpV6Extensions.ConvertIpToUnifiedIpv6(m_DnsServers[intDnsServer].Address);
+						IAsyncResult result = tcpClient.BeginConnect(ipvAnyAddress, m_DnsServers[intDnsServer].Port, null, null);
 
 						bool success = result.AsyncWaitHandle.WaitOne(m_Timeout*1000, true);
 
