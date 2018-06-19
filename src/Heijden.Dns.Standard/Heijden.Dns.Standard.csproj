@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <AssemblyName>Heijden.Dns</AssemblyName>
+    <RootNamespace>Heijden.Dns</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="../Heijden.Dns/**/*.cs" Exclude="../Heijden.Dns/obj/**/*.cs" />
+    <Content Include="../Heijden.Dns/**/*.txt" Exclude="../Heijden.Dns/obj/**/*.txt;../Heijden.Dns/bin/**/*.txt" />
+  </ItemGroup>
+
+</Project>

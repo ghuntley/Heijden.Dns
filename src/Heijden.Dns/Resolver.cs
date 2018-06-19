@@ -8,8 +8,9 @@ using System.Net.Sockets;
 using System.Net.NetworkInformation;
 
 using System.Diagnostics;
+#if !NETSTANDARD2_0
 using System.Runtime.Remoting.Messaging;
-
+#endif
 
 /*
  * Network Working Group                                     P. Mockapetris
@@ -661,6 +662,7 @@ namespace Heijden.DNS
 			return entry.AddressList;
 		}
 
+#if !NETSTANDARD2_0
 		private delegate IPAddress[] GetHostAddressesDelegate(string hostNameOrAddress);
 
 		/// <summary>
@@ -697,6 +699,7 @@ namespace Heijden.DNS
 			GetHostAddressesDelegate g = (GetHostAddressesDelegate)aResult.AsyncDelegate;
 			return g.EndInvoke(AsyncResult);
 		}
+#endif
 
 		/// <summary>
 		///		Creates an System.Net.IPHostEntry instance from the specified System.Net.IPAddress.
@@ -728,6 +731,7 @@ namespace Heijden.DNS
 			return MakeEntry(hostName);
 		}
 
+#if !NETSTANDARD2_0
 		private delegate IPHostEntry GetHostByNameDelegate(string hostName);
 
 		/// <summary>
@@ -760,6 +764,7 @@ namespace Heijden.DNS
 			GetHostByNameDelegate g = (GetHostByNameDelegate)aResult.AsyncDelegate;
 			return g.EndInvoke(AsyncResult);
 		}
+#endif
 
 		/// <summary>
 		///		Resolves a host name or IP address to an System.Net.IPHostEntry instance.
@@ -772,6 +777,7 @@ namespace Heijden.DNS
 			return MakeEntry(hostName);
 		}
 
+#if !NETSTANDARD2_0
 		private delegate IPHostEntry ResolveDelegate(string hostName);
 		
 		/// <summary>
@@ -808,6 +814,7 @@ namespace Heijden.DNS
 			ResolveDelegate g = (ResolveDelegate)aResult.AsyncDelegate;
 			return g.EndInvoke(AsyncResult);
 		}
+#endif
 		#endregion
 
 		/// <summary>
@@ -844,6 +851,7 @@ namespace Heijden.DNS
 				return MakeEntry(hostNameOrAddress);
 		}
 
+#if !NETSTANDARD2_0
 		private delegate IPHostEntry GetHostEntryViaIPDelegate(IPAddress ip);
 		private delegate IPHostEntry GetHostEntryDelegate(string hostNameOrAddress);
 
@@ -911,6 +919,7 @@ namespace Heijden.DNS
 			}
 			return null;
 		}
+#endif
 
 		private enum RRRecordStatus
 		{
